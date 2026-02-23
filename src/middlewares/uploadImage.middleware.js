@@ -2,7 +2,7 @@ import createMulter from "../config/produto.multer.js";
 
 const uploadImage = createMulter({
     folder: 'images',
-    allowedTypes: ['image/jpeg', 'image/png'],
+    allowedTypes: ['image.jpg', 'image/jpeg', 'image/png'],
     filesSize: 10 * 1024 * 1024
 }).single('image');
 

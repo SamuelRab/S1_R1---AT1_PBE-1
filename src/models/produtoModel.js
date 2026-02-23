@@ -26,9 +26,9 @@ const produtoModel = {
         return rows;
     },
 
-    inserirProduto: async (pNome, pValor) => {
-        const sql = "INSERT INTO Produto (nomeProduto, valorProduto) VALUES (?, ?)";
-        const [result] = await pool.query(sql, [pNome, pValor]);
+    inserirProduto: async (pIdCategoria, pNome, pValor, pVinculoImagem) => {
+        const sql = "INSERT INTO Produto (idCategoria, nomeProduto, valorProduto, vinculoImagem) VALUES (?, ?, ?, ?)";
+        const [result] = await pool.query(sql, [pIdCategoria, pNome, pValor, pVinculoImagem]);
         return result;
     },
 

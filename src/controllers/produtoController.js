@@ -117,39 +117,40 @@ export const produtoController = {
     },
 
     async incluirProduto(req, res) {
-    try {
-        const { nomeProduto, valorProduto } = req.body;
+        try {
+            const { idCategoria, nome, valor } = req.body;
 
-        if (!nomeProduto || isNaN(Number(valorProduto))) {
-            return res.status(400).json({
-                message: "Dados inválidos: Nome e valor do produto são obrigatórios"
+            if (!nome || isNaN(Number(valor))) {
+                return res.status(400).json({
+                    message: "Dados inválidos: Nome e valor do produto são obrigatórios"
+                });
+            }
+
+            const vinculoImagem = `/uploads/images/${req.file.filename}`
+
+            const resultado = await produtoModel.inserirProduto(
+                idCategoria, nome, valor, vinculoImagem
+            );
+
+            if (!resultado || resultado.affectedRows !== 1) {
+                return res.status(500).json({
+                    message: "Erro ao incluir o registro"
+                });
+            }
+
+            return res.status(201).json({
+                message: "Registro incluído com sucesso",
+                insertId: resultado.insertId
             });
-        }
 
-        const resultado = await produtoModel.inserirProduto(
-            nomeProduto.trim(),
-            Number(valorProduto)
-        );
+        } catch (error) {
+            console.error("Erro ao incluir produto:", error);
 
-        if (!resultado || resultado.affectedRows !== 1) {
             return res.status(500).json({
-                message: "Erro ao incluir o registro"
+                message: "Ocorreu um erro no servidor"
             });
         }
-
-        return res.status(201).json({
-            message: "Registro incluído com sucesso",
-            insertId: resultado.insertId
-        });
-
-    } catch (error) {
-        console.error("Erro ao incluir produto:", error);
-
-        return res.status(500).json({
-            message: "Ocorreu um erro no servidor"
-        });
-    }
-},
+    },
 
     async atualizarProduto(req, res) {
         try {
