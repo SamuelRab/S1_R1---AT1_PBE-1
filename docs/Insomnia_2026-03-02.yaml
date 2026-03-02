@@ -1,0 +1,338 @@
+type: collection.insomnia.rest/5.0
+schema_version: "5.1"
+name: S1_R6-AT3_PBE1
+meta:
+  id: wrk_96a98dc558d6432b9ecb0381901a5cee
+  created: 1771864407723
+  modified: 1771864407723
+  description: ""
+collection:
+  - name: Produtos
+    meta:
+      id: fld_a4a047721aa04b8caebdd6012b9b8da5
+      created: 1771864460612
+      modified: 1771864460612
+      sortKey: -1771864460612
+      description: ""
+    children:
+      - url: http://localhost:5500/produtos/4
+        name: Deletar Produtos
+        meta:
+          id: req_2ef3e039b0b647c49a0ee844f0d0379d
+          created: 1771864422375
+          modified: 1772448982820
+          isPrivate: false
+          description: ""
+          sortKey: -1771864583456
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/12.3.1
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:5500/produtos/4
+        name: Atualizar Produtos
+        meta:
+          id: req_9877394b5d5d48d1982c929cc037fbb9
+          created: 1771864423705
+          modified: 1772449623943
+          isPrivate: false
+          description: ""
+          sortKey: -1771864583556
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"nomeProduto": "Bola de futebol",
+            	"valorProduto": "50.00",
+            	"idCategoria": "2"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/12.3.1
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:5500/produtos
+        name: Incluir Produtos
+        meta:
+          id: req_5b4344e578f9425eae2e527e86d310cc
+          created: 1771864424968
+          modified: 1772449049553
+          isPrivate: false
+          description: ""
+          sortKey: -1771864583656
+        method: POST
+        body:
+          mimeType: multipart/form-data
+          params:
+            - name: image
+              value: ""
+              fileName: C:\Users\49090085866\Downloads\Bola.jpg
+              type: file
+            - name: nomeProduto
+              value: Bola de futebol
+              description: ""
+              disabled: false
+            - name: valorProduto
+              value: "50.00"
+              description: ""
+              disabled: false
+            - name: idCategoria
+              value: "2"
+              description: ""
+              disabled: false
+        headers:
+          - name: Content-Type
+            value: multipart/form-data
+          - name: User-Agent
+            value: insomnia/12.3.1
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:5500/produtos/categoria/2
+        name: Buscar Produtos por categoria
+        meta:
+          id: req_f708c5b253ce41969371293c6dff0b8f
+          created: 1771864429052
+          modified: 1772449643249
+          isPrivate: false
+          description: ""
+          sortKey: -1771864583956
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.3.1
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:5500/produtos/3
+        name: Buscar Produtos por ID
+        meta:
+          id: req_23da0eddd81d4b1aa7506e141e2a839c
+          created: 1771864430381
+          modified: 1772108702188
+          isPrivate: false
+          description: ""
+          sortKey: -1771864584056
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.3.1
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:5500/produtos
+        name: Buscar Produtos
+        meta:
+          id: req_780ab83f35794bc09990334e4bdbf274
+          created: 1771864431640
+          modified: 1771868886695
+          isPrivate: false
+          description: ""
+          sortKey: -1771864584156
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.3.1
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Categorias
+    meta:
+      id: fld_beddedde319f471883f72490b7a39a7a
+      created: 1771864614011
+      modified: 1771864625932
+      sortKey: -1771864614011
+      description: ""
+    children:
+      - url: http://localhost:5500/categorias/3
+        name: Buscar Categorias por ID
+        meta:
+          id: req_e4079e5d0ea646c4baab725468769df2
+          created: 1771864635009
+          modified: 1772108514867
+          isPrivate: false
+          description: ""
+          sortKey: -1771864643498
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.3.1
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:5500/categorias
+        name: Buscar Categorias
+        meta:
+          id: req_229cdb05784a425d8995733f9490cb33
+          created: 1771864636456
+          modified: 1771867129615
+          isPrivate: false
+          description: ""
+          sortKey: -1771864643548
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.3.1
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:5500/categorias
+        name: Adicionar Categorias
+        meta:
+          id: req_f1bfa774132e47448a53579f704a45c9
+          created: 1771864638997
+          modified: 1772449088328
+          isPrivate: false
+          description: ""
+          sortKey: -1771864643348
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"descricaoCategoria": "Vestiário"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/12.3.1
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:5500/categorias/2
+        name: Atualizar Categorias
+        meta:
+          id: req_20d20ca265184752bedf78287d503fa0
+          created: 1771864640283
+          modified: 1772125169631
+          isPrivate: false
+          description: ""
+          sortKey: -1771864643248
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"descricaoCategoria": "Artigos Esportivos"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/12.3.1
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: http://localhost:5500/categorias/4
+        name: Excluir Categorias
+        meta:
+          id: req_50b97be91f2e4e6f9116ce200b4c6fbc
+          created: 1771864641444
+          modified: 1772125094010
+          isPrivate: false
+          description: ""
+          sortKey: -1771864643148
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/12.3.1
+            description: ""
+            disabled: false
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_590216f5489329c053d7d545328adadd7ebe4e38
+    created: 1771864407729
+    modified: 1771864407729
+environments:
+  name: Base Environment
+  meta:
+    id: env_590216f5489329c053d7d545328adadd7ebe4e38
+    created: 1771864407726
+    modified: 1771864407726
+    isPrivate: false
