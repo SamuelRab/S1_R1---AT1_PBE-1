@@ -2,199 +2,150 @@ import { categoriaModel } from "../models/categoriaModel.js";
 
 export const categoriaController = {
 
-    buscarTodasCategorias: async (req, res) => {
+    async buscarTodasCategorias(req, res) {
         try {
             const resultado = await categoriaModel.selecionarTodasCategorias();
 
-            if (!resultado || resultado.length === 0) {
-                return res.status(200).json({
-                    message: "A tabela selecionada não contém dados",
-                    data: []
-                });
-            }
-
             return res.status(200).json({
-                message: "Dados recebidos",
+                message: resultado.length === 0
+                    ? "A tabela não contém dados"
+                    : "Dados recebidos com sucesso",
                 data: resultado
             });
 
         } catch (error) {
             console.error(error);
             return res.status(500).json({
-                message: "Ocorreu um erro no servidor.",
-                errorMessage: error.message
+                message: "Erro interno do servidor",
+                error: error.message
             });
         }
     },
 
-    buscarCategoriaPorID: async (req, res) => {
+    async buscarCategoriaPorID(req, res) {
         try {
             const id = Number(req.params.idCategoria);
 
-            if (Number.isNaN(id) || !Number.isInteger(id) || id <= 0) {
+            if (!Number.isInteger(id) || id <= 0) {
                 return res.status(400).json({
-                    message: "Forneça um ID válido"
+                    message: "ID inválido"
                 });
             }
 
             const resultado = await categoriaModel.selecionarPorId(id);
 
-            if (!resultado || resultado.length === 0) {
+            if (resultado.length === 0) {
                 return res.status(404).json({
-                    message: `Categoria com ID ${id} não localizada.`
+                    message: `Categoria com ID ${id} não encontrada`
                 });
             }
 
             return res.status(200).json({
-                message: "Resultado dos dados listados",
+                message: "Categoria localizada",
                 data: resultado
             });
 
         } catch (error) {
             console.error(error);
             return res.status(500).json({
-                message: "Ocorreu um erro no servidor",
-                errorMessage: error.message
+                message: "Erro interno do servidor",
+                error: error.message
             });
         }
     },
 
-    buscarCategoriaPorDescricao: async (req, res) => {
-        try {
-            const descricao = req.params.descricaoCategoria;
-
-            if (!descricao || descricao.trim().length < 2) {
-                return res.status(400).json({
-                    message: "Forneça uma descrição válida"
-                });
-            }
-
-            const resultado = await categoriaModel.selecionarPorDescricao(descricao);
-
-            if (!resultado || resultado.length === 0) {
-                return res.status(404).json({
-                    message: "Nenhuma categoria encontrada com essa descrição."
-                });
-            }
-
-            return res.status(200).json({
-                message: "Resultado dos dados listados",
-                data: resultado
-            });
-
-        } catch (error) {
-            console.error(error);
-            return res.status(500).json({
-                message: "Ocorreu um erro no servidor",
-                errorMessage: error.message
-            });
-        }
-    },
-
-    incluirCategoria: async (req, res) => {
+    async incluirCategoria(req, res) {
         try {
             const { descricaoCategoria } = req.body;
 
             if (!descricaoCategoria || descricaoCategoria.trim().length < 3) {
                 return res.status(400).json({
-                    message: "Descrição da categoria é obrigatória (mínimo 3 caracteres)"
+                    message: "Descrição obrigatória (mínimo 3 caracteres)"
                 });
             }
 
-            const resultado = await categoriaModel.inserirCategoria(descricaoCategoria);
+            const resultado = await categoriaModel.inserirCategoria(
+                descricaoCategoria.trim()
+            );
 
-            if (resultado.affectedRows === 1) {
-                return res.status(201).json({
-                    message: "Registro incluído com sucesso",
-                    insertId: resultado.insertId
-                });
-            }
-
-            throw new Error("Ocorreu um erro ao incluir o registro");
+            return res.status(201).json({
+                message: "Categoria criada com sucesso",
+                insertId: resultado.insertId
+            });
 
         } catch (error) {
             console.error(error);
             return res.status(500).json({
-                message: "Ocorreu um erro no servidor",
-                errorMessage: error.message
+                message: "Erro interno do servidor",
+                error: error.message
             });
         }
     },
 
-    atualizarCategoria: async (req, res) => {
+    async atualizarCategoria(req, res) {
         try {
             const id = Number(req.params.idCategoria);
             const { descricaoCategoria } = req.body;
 
-            if (Number.isNaN(id) || id <= 0 || !descricaoCategoria || descricaoCategoria.trim().length < 3) {
+            if (!Number.isInteger(id) || id <= 0 ||
+                !descricaoCategoria || descricaoCategoria.trim().length < 3) {
                 return res.status(400).json({
-                    message: "Verifique os dados enviados"
+                    message: "Dados inválidos"
                 });
             }
 
-            const categoriaAtual = await categoriaModel.selecionarPorId(id);
+            const categoriaExiste = await categoriaModel.selecionarPorId(id);
 
-            if (!categoriaAtual || categoriaAtual.length === 0) {
+            if (categoriaExiste.length === 0) {
                 return res.status(404).json({
-                    message: `Registro com ID ${id} não localizado.`
+                    message: "Categoria não encontrada"
                 });
             }
 
-            const resultado = await categoriaModel.atualizarCategoria(id, descricaoCategoria);
-
-            if (resultado.affectedRows > 0) {
-                return res.status(200).json({
-                    message: "Registro atualizado com sucesso",
-                    data: { id, descricaoCategoria }
-                });
-            }
+            await categoriaModel.atualizarCategoria(id, descricaoCategoria.trim());
 
             return res.status(200).json({
-                message: "Nenhuma alteração foi necessária."
+                message: "Categoria atualizada com sucesso"
             });
 
         } catch (error) {
             console.error(error);
             return res.status(500).json({
-                message: "Ocorreu um erro no servidor.",
-                errorMessage: error.message
+                message: "Erro interno do servidor",
+                error: error.message
             });
         }
     },
 
-    excluirCategoria: async (req, res) => {
+    async excluirCategoria(req, res) {
         try {
             const id = Number(req.params.idCategoria);
 
-            if (Number.isNaN(id) || !Number.isInteger(id) || id <= 0) {
+            if (!Number.isInteger(id) || id <= 0) {
                 return res.status(400).json({
-                    message: "Forneça um ID válido"
+                    message: "ID inválido"
                 });
             }
 
-            const categoriaSelecionada = await categoriaModel.selecionarPorId(id);
+            const categoriaExiste = await categoriaModel.selecionarPorId(id);
 
-            if (!categoriaSelecionada || categoriaSelecionada.length === 0) {
+            if (categoriaExiste.length === 0) {
                 return res.status(404).json({
-                    message: `Registro com ID ${id} não localizado.`
+                    message: "Categoria não encontrada"
                 });
             }
 
-            const resultado = await categoriaModel.excluirCategoria(id);
+            await categoriaModel.excluirCategoria(id);
 
-            if (resultado.affectedRows === 1) {
-                return res.status(200).json({
-                    message: "Categoria excluída com sucesso"
-                });
-            }
-
-            throw new Error("Não foi possível excluir a categoria");
+            return res.status(200).json({
+                message: "Categoria excluída com sucesso"
+            });
 
         } catch (error) {
             console.error(error);
             return res.status(500).json({
-                message: "Ocorreu um erro no servidor",
-                errorMessage: error.message
+                message: "Erro interno do servidor",
+                error: error.message
             });
         }
     }

@@ -2,48 +2,50 @@ import pool from "../config/db.js";
 
 const produtoModel = {
 
-    selecionarTodos: async () => {
-        const sql = "SELECT * FROM Produto";
-        const [rows] = await pool.query(sql);
+    async selecionarTodos() {
+        const [rows] = await pool.query("SELECT * FROM Produto");
         return rows;
     },
 
-    selecionarPorId: async (pId) => {
-        const sql = "SELECT * FROM Produto WHERE idProduto = ?";
-        const [rows] = await pool.query(sql, [pId]);
+    async selecionarPorId(id) {
+        const [rows] = await pool.query(
+            "SELECT * FROM Produto WHERE idProduto = ?",
+            [id]
+        );
         return rows;
     },
 
-    selecionarPorCategoria: async (pIdCategoria) => {
-        const sql = "SELECT * FROM Produto WHERE idCategoria = ?";
-        const [rows] = await pool.query(sql, [pIdCategoria]);
+    async selecionarPorCategoria(idCategoria) {
+        const [rows] = await pool.query(
+            "SELECT * FROM Produto WHERE idCategoria = ?",
+            [idCategoria]
+        );
         return rows;
     },
 
-    selecionarPorNome: async (pNome) => {
-        const sql = "SELECT * FROM Produto WHERE nomeProduto = ?";
-        const [rows] = await pool.query(sql, [pNome]);
-        return rows;
-    },
-
-    inserirProduto: async (pIdCategoria, pNome, pValor, pVinculoImagem) => {
-        const sql = "INSERT INTO Produto (idCategoria, nomeProduto, valorProduto, vinculoImagem) VALUES (?, ?, ?, ?)";
-        const [result] = await pool.query(sql, [pIdCategoria, pNome, pValor, pVinculoImagem]);
+    async inserirProduto(idCategoria, nomeProduto, valorProduto, vinculoImagem) {
+        const [result] = await pool.query(
+            "INSERT INTO Produto (idCategoria, nomeProduto, valorProduto, vinculoImagem) VALUES (?, ?, ?, ?)",
+            [idCategoria, nomeProduto, valorProduto, vinculoImagem]
+        );
         return result;
     },
 
-    atualizarProduto: async (pNome, pValor, pId) => {
-        const sql = "UPDATE Produto SET nomeProduto = ?, valorProduto = ? WHERE idProduto = ?";
-        const [result] = await pool.query(sql, [pNome, pValor, pId]);
+    async atualizarProduto(nomeProduto, valorProduto, idCategoria) {
+        const [result] = await pool.query(
+            "UPDATE Produto SET nomeProduto = ?, valorProduto = ? WHERE idCategoria = ?",
+            [nomeProduto, valorProduto, idCategoria]
+        );
         return result;
     },
 
-    excluirProduto: async (pId) => {
-        const sql = "DELETE FROM Produto WHERE idProduto = ?";
-        const [result] = await pool.query(sql, [pId]);
+    async excluirProduto(idProduto) {
+        const [result] = await pool.query(
+            "DELETE FROM Produto WHERE idProduto = ?",
+            [idProduto]
+        );
         return result;
     }
-
 };
 
 export { produtoModel };
